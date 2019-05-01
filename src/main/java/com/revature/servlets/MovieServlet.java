@@ -1,6 +1,7 @@
 package com.revature.servlets;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -47,6 +48,21 @@ import com.revature.services.MovieService;
  * we would inject our own functionality.
  */
 
+/*
+ * Servlet Scopes 
+ *
+ * 1. Request Scope - Request Scoped data is data only available for the 
+ * 				duration of a single request. Data is located in the Request object.
+ * 2. Session Scope - Session scoped data is data available by user for the duration
+ * 				of the user session. Available on HttpSession object.
+ * 3. Servlet Scope - Data attached to a specific servlet and is not accessible to
+ * 				other servlets. Often used for servlet configuration.
+ * 4. Application scope - Data available to the entire application through every 
+ * 				servlet.
+ *
+ *
+ */
+
 public class MovieServlet extends DefaultServlet {
 
 	MovieService movieService = new MovieService();
@@ -60,7 +76,9 @@ public class MovieServlet extends DefaultServlet {
 
 	@Override
 	public void init() {
+		System.out.println("App name: " + this.getServletContext().getInitParameter("app-name"));
 		System.out.println("MovieServlet is initializing");
+		System.out.println("Init param of name: " + this.getInitParameter("name"));
 	}
 
 	/*
@@ -86,6 +104,12 @@ public class MovieServlet extends DefaultServlet {
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 				throws ServletException, IOException {
+		SecureRandom rand = new SecureRandom();
+		
+//		if(rand.nextBoolean()) {
+//			throw new NullPointerException();
+//		}
+		
 		System.out.println("doGet being called");
 		System.out.println(req.getRequestURI());
 		System.out.println(req.getRequestURL());
@@ -109,12 +133,15 @@ public class MovieServlet extends DefaultServlet {
 				throws ServletException, IOException {
 		System.out.println("doPost being called");
 		
+		// Getting post-data values from the parameters of the request
 		String title = req.getParameter("title");
 		Duration duration = Duration.parse(req.getParameter("duration"));
 		String genre = req.getParameter("genre");
 		
+		// Creating movie object and passing it to the service
 		Movie movie = new Movie(0, title, duration, genre);
 		movieService.createMovie(movie);
+		
 		// write the movie back with it now having an id
 		resp.getWriter().write(movie.toString());
 	}
