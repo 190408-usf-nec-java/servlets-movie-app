@@ -95,6 +95,13 @@ public class MovieServlet extends DefaultServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("Service being called");
+//		resp.sendRedirect("http://www.google.com");
+
+		/* sendRedirect will set these properties: */
+//		resp.setStatus(302);
+//		resp.setHeader("Location", "http://www.yahoo.com");
+		
+		
 		super.service(req, resp);
 	}
 
@@ -144,5 +151,13 @@ public class MovieServlet extends DefaultServlet {
 		
 		// write the movie back with it now having an id
 		resp.getWriter().write(movie.toString());
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) 
+			throws IOException, ServletException {
+		// getServletContext - get a dispatcher for "click", forward the req/resp
+		this.getServletContext().getRequestDispatcher("/click").forward(req, resp);
+		
 	}
 }
