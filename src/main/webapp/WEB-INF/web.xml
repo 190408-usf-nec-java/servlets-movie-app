@@ -1,0 +1,24 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+
+	<!-- 
+		Is a configuration file that provides configuration details on how 
+		Tomcat can integrate and call functionality on our own application based on
+		the format of a request.
+	 -->
+
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+  	<servlet-name>movie</servlet-name>
+  	<servlet-class>com.revature.servlets.MovieServlet</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>movie</servlet-name>
+  	<url-pattern>/movies/*</url-pattern>
+  </servlet-mapping>
+</web-app>
